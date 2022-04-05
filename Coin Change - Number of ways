@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    long long numberOfWays(int coins[],int numberOfCoins,int value)
+    {
+        //using rescursion
+        
+        
+        // base case
+        if(value==0)return 1;
+        if(numberOfCoins==0)return 0;
+        
+        
+        int res=numberOfWays(coins,numberOfCoins-1,value);
+        
+        if(coins[numberOfCoins-1]<=value)
+        res= res+numberOfWays(coins,numberOfCoins,value-coins[numberOfCoins-1]);
+        
+        return res;
+        
+        
+        // using dynamic programming
+        
+        
+        int n=numberOfCoins;
+        long long dp[value+1][n+1];
+        for(int i=0;i<=value;i++)
+        dp[i][0]=0;
+        
+        for(int i=0;i<=n;i++)
+        dp[0][i]=1;
+        
+        for(int i=1;i<=value;i++){
+            for(int j=1;j<=n;j++){
+                
+                if(coins[j-1]<=i)
+                dp[i][j]=dp[i][j-1]+dp[i-coins[j-1]][j];
+                else
+                dp[i][j]=dp[i][j-1];
+            }
+        }
+        return dp[value][n];
+        
+        
+        
+    }
+};
+
+int main() {
+    
+    //taking total count of testcases
+	int testcases;
+	cin>>testcases;
+	while(testcases--)
+	{
+	    //taking value
+	    int value;
+	    cin>>value;
+	    
+	    //taking number of coins
+	    int numberOfCoins;
+	    cin>>numberOfCoins;
+	    int coins[numberOfCoins];
+	    
+	    //inserting coins to the array
+	    for(int i=0;i<numberOfCoins;i++)
+	    cin>>coins[i];
+	    Solution obj;
+	    //calling function numberOfWays
+	    cout<<obj.numberOfWays(coins,numberOfCoins,value)<<endl;
+	    
+	}
+	return 0;
+}

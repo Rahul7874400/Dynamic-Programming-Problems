@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+class Solution
+{
+    public:
+    long long countWays(int n)
+    {
+    
+    //recursive solution
+        if(n==0)
+        return 1;
+        
+        if(n<0)
+        return 0;
+        
+        return (countWays(n-1)+countWays(n-2)+countWays(n-3))%1000000007;
+        
+        
+        //using dynamic progamming
+        if(n==1 ||n==0)
+        return 1;
+        
+        long long temp1=0,temp2=1,temp3=1,next;
+        
+        
+        for(int i=2;i<=n;i++)
+        {
+            next=(temp1+temp2+temp3)%1000000007;
+            temp1=temp2;
+            temp2=temp3;
+            temp3=next;
+        }
+        
+        return next;
+    }
+};
+
+
+
+int main()
+{
+    //taking testcases
+	int t;
+	cin >> t;
+	
+	while(t--)
+	{
+	    //taking number of steps in stair
+		int n;
+		cin>>n;
+		Solution ob;
+		//calling function countWays()
+		cout << ob.countWays(n) << endl;
+	}
+    
+    return 0;
+    
+}

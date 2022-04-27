@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    int eggDrop(int e, int f) 
+    {
+       /* 
+       
+       using recursion
+       if(f==0)
+        return 0;
+        
+        if(e==1)
+        return f;
+        
+        if(f==1)
+        return 1;
+        
+        int res = INT_MAX;
+        
+        for(int i=1;i<=f;i++)
+        {
+            int sub_res = max(eggDrop(e-1,i-1),eggDrop(e,f-i));
+            if(sub_res!=INT_MAX)
+            res = min(res,sub_res+1);
+        }
+        
+        return res;
+        */
+        
+        // using dynamic programming
+        int dp[e+1][f+1];
+        for(int i=0;i<=e;i++){
+            dp[i][0] = 0;
+            dp[i][1] = 1;
+        }
+        for(int i=0;i<=f;i++)
+        dp[1][i] =i;
+        
+        for(int i=2;i<=e;i++){
+            for(int j=2;j<=f;j++){
+                dp[i][j] = INT_MAX;
+                
+                for(int k=1;k<=j;k++){
+                    int sub_res=max(dp[i-1][k-1],dp[i][j-k]);
+                    if(sub_res!=INT_MAX)
+                    dp[i][j] = min(dp[i][j],sub_res+1);
+                }
+            }
+        }
+        
+        return dp[e][f];
+    }
+};
+
+
+int main()
+{
+    //taking total testcases
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        //taking eggs and floors count
+        int n, k;
+        cin>>n>>k;
+        Solution ob;
+        //calling function eggDrop()
+        cout<<ob.eggDrop(n, k)<<endl;
+    }
+    return 0;
+}
